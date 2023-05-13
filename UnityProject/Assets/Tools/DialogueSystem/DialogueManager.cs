@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,6 +18,9 @@ namespace SimpleTools.DialogueSystem {
 		public DialogueItems dialogueItems;
 
 		public static DialogueManager instance;
+
+		public Action finishAnimatingCallback;
+		
 		void Awake() {
 			instance = this;
 			sentences = new Queue<string>();
@@ -93,7 +97,7 @@ namespace SimpleTools.DialogueSystem {
 			this.EnsureCoroutineStopped(ref typeRoutine);
 			dialogueVertexAnimator.textAnimating = false;
 			List<DialogueCommand> commands = DialogueUtility.ProcessInputString(message, out string totalTextMessage);
-			typeRoutine = StartCoroutine(dialogueVertexAnimator.AnimateTextIn(commands, totalTextMessage, null));
+			typeRoutine = StartCoroutine(dialogueVertexAnimator.AnimateTextIn(commands, totalTextMessage, finishAnimatingCallback));
 
 			dialogueItems.characterImage.sprite = characterImage;
 			dialogueItems.characterName.text = displayName ? characterName : "???";

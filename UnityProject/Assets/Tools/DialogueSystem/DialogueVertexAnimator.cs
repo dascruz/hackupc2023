@@ -19,11 +19,11 @@ namespace SimpleTools.DialogueSystem {
 		}
 
 		static readonly Color32 clear = new Color32(0, 0, 0, 0);
-		const float CHAR_ANIM_TIME = 0.07f;
+		const float CHAR_ANIM_TIME = 0.00f;
 		static readonly Vector3 vecZero = Vector3.zero;
 		public IEnumerator AnimateTextIn(List<DialogueCommand> commands, string processedMessage, Action onFinish) {
 			textAnimating = true;
-			float secondsPerCharacter = 1f / 150f;
+			float secondsPerCharacter = 1f / 50f;
 			float timeOfLastCharacter = 0;
 
 			TextAnimInfo[] textAnimInfo = SeparateOutTextAnimInfo(commands);
