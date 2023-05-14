@@ -4,6 +4,7 @@ using MyBox;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class NetworkButton : NetworkBehaviour {
 
@@ -11,6 +12,8 @@ public class NetworkButton : NetworkBehaviour {
 	[SerializeField] PacketReceiver packetReceiver;
 
 	[SerializeField] GameObject loadingAnimation;
+	[SerializeField] Images images;
+	[SerializeField] Image bgImage;
 	
 	[HideInInspector] public List<string> options;
 
@@ -29,6 +32,7 @@ public class NetworkButton : NetworkBehaviour {
 	[ClientRpc]
 	void ReceiveChatMessageClientRpc(string response) {
 		//Write to send to dialogue
+		bgImage.sprite = images.SelectImage();
 		loadingAnimation.SetActive(false);
 		packetReceiver.Receive(response);
 	}

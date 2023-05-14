@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.Netcode;
@@ -14,9 +16,21 @@ public class LobbyChatBehaviour : NetworkBehaviour {
 	private const float MinIntervalBetweenChatMessages = 1f;
 	private float _clientSendTimer;
 
+	CanvasGroup _canvasGroup;
+
 	private void Awake() {
 		chatMessagePrefab.gameObject.SetActive(false);
 		_messages = new List<ChatMessage>();
+		_canvasGroup = GetComponent<CanvasGroup>();
+		_canvasGroup.alpha = 0f;
+		_canvasGroup.interactable = _canvasGroup.blocksRaycasts = false;
+	}
+
+	bool _opened = false;
+	public void ChangeState() {
+		_opened ^= true;
+		_canvasGroup.alpha = _opened ? 1f : 0f;
+		_canvasGroup.interactable = _canvasGroup.blocksRaycasts = _opened;
 	}
 
 	private void Update() {
