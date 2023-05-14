@@ -15,10 +15,9 @@ import io
 app = FastAPI()
 player_stories = {}
 # get api from environment variable
-# openai.api_key = os.environ['OPENAI_API_KEY']
-openai.api_key  = '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'
+openai.api_key = os.environ['OPENAI_API_KEY']
 # Replace 'YOUR_API_KEY' with your actual Pexels API key
-# pexel_api_key = os.environ['PEXELS_API_KEY']
+pexel_api_key = os.environ['PEXELS_API_KEY']
 
 pexel_api_key = '34'
 
