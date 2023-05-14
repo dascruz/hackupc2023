@@ -1,0 +1,6 @@
+fastapi
+openai
+uvicorn
+gunicorn
+requests
+Pillow
