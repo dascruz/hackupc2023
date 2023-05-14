@@ -1,0 +1,19 @@
+{
+    "name": "ChatGPTWrapper.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e2dd40b6c1f59ce4aa07be2b237fc5ee",
+        "GUID:91e88b73897c60e4c9c4e83e2159f16d"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

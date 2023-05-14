@@ -14,11 +14,6 @@ Shader "UI/Default"
         _StencilReadMask ("Stencil Read Mask", Float) = 255
 
         _ColorMask ("Color Mask", Float) = 15
-        
-        _Color0 ("Color 0", Color) = (0,0,0)
-        _Color1 ("Color 1", Color) = (1,0,0)
-        _Color2 ("Color 2", Color) = (0,1,0)
-        _Color3 ("Color 3", Color) = (0,0,1)
 
         [Toggle(UNITY_UI_ALPHACLIP)] _UseUIAlphaClip ("Use Alpha Clip", Float) = 0
     }
@@ -87,8 +82,6 @@ Shader "UI/Default"
             float4 _ClipRect;
             float4 _MainTex_ST;
 
-            fixed4 _Color0, _Color1, _Color2, _Color3;
-
             v2f vert(appdata_t v)
             {
                 v2f OUT;
@@ -107,23 +100,15 @@ Shader "UI/Default"
             {
                 half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
 
-                half4 finalColor = color.r * _Color1;
-                finalColor += color.g * _Color2;
-                finalColor += color.b * _Color3;
-                if(finalColor != half4(0,0,0,0)){
-                    finalColor = _Color0;
-                }
-                finalColor.a = 1;
-
                 #ifdef UNITY_UI_CLIP_RECT
-                finalColor.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
+                color.a *= UnityGet2DClipping(IN.worldPosition.xy, _ClipRect);
                 #endif
 
                 #ifdef UNITY_UI_ALPHACLIP
-                clip (finalColor.a - 0.001);
+                clip (color.a - 0.001);
                 #endif
 
-                return finalColor;
+                return color;
             }
         ENDCG
         }

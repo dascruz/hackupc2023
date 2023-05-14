@@ -9,13 +9,6 @@
       },
       "hash": "e250b932c64c9624f807ff2dad658da80dc09b8e"
     },
-    "com.graesonb.chat-gpt-wrapper-for-unity": {
-      "version": "https://github.com/GraesonB/ChatGPT-Wrapper-For-Unity.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "2bd8b1cefb5d807495c7c51d779a3733159834db"
-    },
     "com.unity.2d.animation": {
       "version": "7.0.7",
       "depth": 1,

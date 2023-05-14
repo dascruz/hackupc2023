@@ -8,13 +8,14 @@ public class LobbyChatBehaviour : NetworkBehaviour {
 	[SerializeField] private Transform messageParent;
 	[SerializeField] private TMP_InputField chatInputField;
 
-	private const int MaxNumberOfMessagesInList = 20;
+	private const int MaxNumberOfMessagesInList = 10;
 	private List<ChatMessage> _messages;
 
 	private const float MinIntervalBetweenChatMessages = 1f;
 	private float _clientSendTimer;
 
-	private void Start() {
+	private void Awake() {
+		chatMessagePrefab.gameObject.SetActive(false);
 		_messages = new List<ChatMessage>();
 	}
 
@@ -47,7 +48,12 @@ public class LobbyChatBehaviour : NetworkBehaviour {
 
 	private void AddMessage(string message, ulong senderPlayerId) {
 		var msg = Instantiate(chatMessagePrefab, messageParent);
-		msg.SetMessage("potato", message);
+		msg.gameObject.SetActive(true);
+		msg.SetMessage(message);
+
+		foreach (ChatMessage chatMessage in _messages) {
+			chatMessage.RectTransform.anchoredPosition += Vector2.up * 28f;
+		}
 
 		_messages.Add(msg);
 

@@ -19,6 +19,8 @@ namespace SimpleTools.DialogueSystem {
 
 		public static DialogueManager instance;
 
+		Dialogue _currentDialogue;
+
 		public Action finishAnimatingCallback;
 		
 		void Awake() {
@@ -32,6 +34,11 @@ namespace SimpleTools.DialogueSystem {
 		}
 
 		public bool Dialogue(Dialogue dialogue) {
+			if (_currentDialogue == dialogue) return Dialogue(dialogue, string.Empty);
+			
+			_currentDialogue = dialogue;
+			talking = false;
+
 			return Dialogue(dialogue, string.Empty);
 		}
 
@@ -57,11 +64,12 @@ namespace SimpleTools.DialogueSystem {
 					return false;
 				}
 
+				bool last = sentences.Count == 1;
 				string sentenceToShow = sentences.Peek();
 				bool displayName = displayNames.Peek();
 				string characterName = characterNames.Peek();
 				Sprite characterImage = characterImages.Peek();
-				if (PlayDialogue(sentenceToShow, displayName, characterName, characterImage)) {
+				if (PlayDialogue(sentenceToShow, displayName, characterName, characterImage, last)) {
 					sentences.Dequeue();
 					displayNames.Dequeue();
 					characterNames.Dequeue();
@@ -74,11 +82,12 @@ namespace SimpleTools.DialogueSystem {
 					return false;
 				}
 
+				bool last = sentences.Count == 1;
 				string sentenceToShow = sentences.Peek();
 				bool displayName = displayNames.Peek();
 				string characterName = characterNames.Peek();
 				Sprite characterImage = characterImages.Peek();
-				if (PlayDialogue(sentenceToShow, displayName, characterName, characterImage)) {
+				if (PlayDialogue(sentenceToShow, displayName, characterName, characterImage, last)) {
 					sentences.Dequeue();
 					displayNames.Dequeue();
 					characterNames.Dequeue();
@@ -89,7 +98,7 @@ namespace SimpleTools.DialogueSystem {
 		}
 
 		private Coroutine typeRoutine = null;
-		bool PlayDialogue(string message, bool displayName = false, string characterName = "", Sprite characterImage = null) {
+		bool PlayDialogue(string message, bool displayName = false, string characterName = "", Sprite characterImage = null, bool last = false) {
 			if (dialogueVertexAnimator.IsMessageAnimating()) {
 				dialogueVertexAnimator.SkipToEndOfCurrentMessage();
 				return false; //Next message hasn't been shown because the current one is still animating.
@@ -97,7 +106,9 @@ namespace SimpleTools.DialogueSystem {
 			this.EnsureCoroutineStopped(ref typeRoutine);
 			dialogueVertexAnimator.textAnimating = false;
 			List<DialogueCommand> commands = DialogueUtility.ProcessInputString(message, out string totalTextMessage);
-			typeRoutine = StartCoroutine(dialogueVertexAnimator.AnimateTextIn(commands, totalTextMessage, finishAnimatingCallback));
+			typeRoutine = last ? 
+				StartCoroutine(dialogueVertexAnimator.AnimateTextIn(commands, totalTextMessage, finishAnimatingCallback)) : 
+				StartCoroutine(dialogueVertexAnimator.AnimateTextIn(commands, totalTextMessage, null));
 
 			dialogueItems.characterImage.sprite = characterImage;
 			dialogueItems.characterName.text = displayName ? characterName : "???";

@@ -1,10 +1,17 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 public class ChatMessage : MonoBehaviour {
+	
 	[SerializeField] private TMP_Text textField;
+	public RectTransform RectTransform { get; private set; }
 
-	public void SetMessage(string playerName, string message) {
-		textField.text = $"<color=grey>{playerName}</color>: {message}";
+	void Awake() {
+		RectTransform = GetComponent<RectTransform>();
+	}
+
+	public void SetMessage(string message) {
+		textField.text = message;
 	}
 }
