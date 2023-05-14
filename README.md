@@ -1,5 +1,4 @@
 # VueQuest
-Project for the HackUPC 2023 Hackathon.
 Looking for a fun way to learn about your destination? Join VueQuest! Play with fellow passengers, discover hidden gems and popular sites, and make your trip even more memorable!  
 
 ## About the project
